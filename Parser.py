@@ -38,3 +38,34 @@ def tokenize_string(text):
 print(tokenize_string(ReadFile))
 
 #FUNCIONES DE VERIFICACION
+listaog = tokenize_string(ReadFile)
+global redflag 
+redflag = True 
+# Funcion verificacion de variables terminada (verificar si en el 3 parametro se puede tener mas de un digito)
+def verifyvar(i:int, lista:list, redflag:bool, comandos:list):
+    numeros = ["1","2","3","4","5","6","7","8","9","0"]
+    if lista[i] == "DEFVAR":
+        i =i+1
+        if lista[i] not in comandos:
+            i=i+1
+        if len(lista[i])>1:
+            i = 0
+            while i != len(lista[i]) and redflag == True:
+                if lista[i] in numeros:   
+                    i =i+1
+                else :
+                    redflag = False
+        else:
+            if lista[i] not in numeros:
+                redflag = False 
+            else: 
+                i= i+1
+    else:
+        redflag = False
+    return(i, redflag)
+
+#print(verifyvar(2, listaog, redflag, comandos))
+
+
+def verifycycle(i:int, lista:list, redflag:bool, comandos:list):
+    pass
