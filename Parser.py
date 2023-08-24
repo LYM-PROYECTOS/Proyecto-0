@@ -1,4 +1,5 @@
 #"D:\OneDrive - Universidad de los andes\U.ANDES\2023-2\LyM\4-PTO\Proyecto-0\Prueba.txt"
+#"C:\Users\andre\OneDrive\Desktop\universidad\tercer semestre\LYM\Proyecto-0\Prueba.txt"
 #VARIABLES CREADAS
 file = open(input("Ingrese ruta de acceso del archivo con el programa (formato .txt): "))
 ReadFile = file.read()
@@ -46,33 +47,6 @@ def Adapt_Program(Procesamiento):
 
 
 #FUNCIONES DE VERIFICACION
-
-global redflag 
-redflag = True 
-# Funcion verificacion de variables terminada (verificar si en el 3 parametro se puede tener mas de un digito)
-def verifyvar(i:int, lista:list, redflag:bool, comandos:list):
-    numeros = ["1","2","3","4","5","6","7","8","9","0"]
-    if lista[i] == "DEFVAR":
-        i =i+1
-        if lista[i] not in comandos:
-            i=i+1
-        if len(lista[i])>1:
-            i = 0
-            while i != len(lista[i]) and redflag == True:
-                if lista[i] in numeros:   
-                    i =i+1
-                else :
-                    redflag = False
-        else:
-            if lista[i] not in numeros:
-                redflag = False 
-            else: 
-                i= i+1
-    else:
-        redflag = False
-    return(i, redflag)
-
-#print(verifyvar(2, listaog, redflag, comandos))
 def Verify_VAR(Procesamiento):
     Programa = Procesamiento["PROG"]
     pos=Procesamiento["i"]
@@ -86,13 +60,19 @@ def Verify_VAR(Procesamiento):
             Procesamiento["Funciona"] =False
     else:
         Procesamiento["Funciona"] =False
+    print(Procesamiento["VAR"])
     return Procesamiento
 def Verify_Proceso(Procesamiento):
     return Procesamiento
-def verifycycle(i:int, lista:list, redflag:bool, comandos:list):
-    pass
+def verifycycle(Procesamiento):
+    return Procesamiento
 def Verify_Block(Procesamiento):
     Programa = Procesamiento["PROG"]
+    pos=Procesamiento["i"]
+    
+    if Programa[pos]in Procesamiento["Command"]:
+        Procesamiento=Verify_Command(Procesamiento)
+        pos= Procesamiento["i"]
     return Procesamiento
 
 def Verify_Command(Procesamiento):
@@ -220,6 +200,7 @@ def Inicio(Procesamiento):
             Procesamiento["i"] +=1
             Procesamiento = Verify_VAR(Procesamiento)
         elif Programa[pos] =="{":
+            Procesamiento["i"] +=1
             Procesamiento = Verify_Block(Procesamiento)
         else: 
             Procesamiento["Funciona"]=False
