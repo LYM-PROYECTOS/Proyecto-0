@@ -8,11 +8,12 @@ Cycle=["WHILE", "REPEAT"]
 
 #DICCIONARIO PROCESAMIENTO
 Procesamiento = {"PROG": ReadFile, "i":0, "Funciona":True, "Command":Command, "Condition":Condition, "Cycle": Cycle,
-                 "FD":["LEFT", "RIGHT", "AROUND"], "SD":["NORTH", "SOUTH", "EAST", "WEST"] }
+                 "FD":["LEFT", "RIGHT", "AROUND"], "SD":["NORTH", "SOUTH", "EAST", "WEST"], "VAR":{},
+                 }
 #FUNCIONES DE CONTROL
 def Adapt_Program(Procesamiento):
     text= Procesamiento["PROG"]
-    dictV={"{":0,"}":0,"(":0, ")":0}
+    dictV={"{":0,"}":0,"(":0, ")":0,";":0, ",":0,"=":0}
     Pro0=""
     text= text.split("\n")
     for item in text:
@@ -36,9 +37,11 @@ def Adapt_Program(Procesamiento):
     
     if palabra:
         PROGRAMA1.append(palabra)
+    Procesamiento["PROG"]=PROGRAMA1
     if (dictV["{"]!=dictV["}"]) or (dictV["("]!=dictV[")"]):
+        
         Procesamiento["Funciona"]= False
-    return PROGRAMA1
+    return Procesamiento
 
 
 
@@ -71,6 +74,18 @@ def verifyvar(i:int, lista:list, redflag:bool, comandos:list):
 
 #print(verifyvar(2, listaog, redflag, comandos))
 def Verify_VAR(Procesamiento):
+    Programa = Procesamiento["PROG"]
+    pos=Procesamiento["i"]
+    if Programa[pos].isalnum():
+        pos +=1
+        if Programa[pos].isdigit():
+            Procesamiento["VAR"][Programa[pos-1]]=  Programa[pos]
+            pos +=1
+            Procesamiento["i"] = pos
+        else:
+            Procesamiento["Funciona"] =False
+    else:
+        Procesamiento["Funciona"] =False
     return Procesamiento
 def Verify_Proceso(Procesamiento):
     return Procesamiento
@@ -196,11 +211,13 @@ def Verify_Command(Procesamiento):
 def Inicio(Procesamiento):
     Procesamiento = Adapt_Program(Procesamiento)
     Programa = Procesamiento["PROG"]
+    print(Programa)
     while Procesamiento["Funciona"] and Procesamiento["i"]<len(Programa):
         pos=Procesamiento["i"]
         if Programa[pos] =="DEFPROC":
             Procesamiento = Verify_Proceso(Procesamiento)
         elif Programa[pos] =="DEFVAR":
+            Procesamiento["i"] +=1
             Procesamiento = Verify_VAR(Procesamiento)
         elif Programa[pos] =="{":
             Procesamiento = Verify_Block(Procesamiento)
