@@ -60,30 +60,31 @@ def Verify_VAR(Procesamiento):
         Procesamiento["Funciona"] =False
     print(Procesamiento["VAR"])
     return Procesamiento
-#revisar si puede haver un proceso asi (""""defProc putCB (c)"""") IMPORTANTE por el momento se toma erroneo
+#revisar si puede haber un proceso asi (""""defProc putCB (c)"""") IMPORTANTE por el momento se toma erroneo
 def Verify_Proceso(Procesamiento):
     Programa = Procesamiento["PROG"]
     pos=Procesamiento["i"]+1
+    
     if Programa[pos] not in Command:
         pos +=1
-       
+        
         if Programa[pos]=="(":
             pos += 1
-           
+            
             if Programa[pos].isalnum():
                 pos += 1
-               
+                
                 if Programa[pos]==",":
                     pos +=1
-                   
+                                       
                     if Programa[pos].isalnum():
                         pos += 1
-                       
+                        
                         if Programa[pos]==")":
                             pos=pos+1
                             
                             Procesamiento["i"]=pos
-                
+
                         else:
                             Procesamiento["Funciona"]= False
                     else:
@@ -94,14 +95,18 @@ def Verify_Proceso(Procesamiento):
 
                 pos=pos+1
                 Procesamiento["i"]=pos
-        
+    
     return Procesamiento
 
 def verifycycle(Procesamiento):
     return Procesamiento
+def Verifycondicion(Procesamiento):
+    return Procesamiento
+
 def Verify_Block(Procesamiento):
     Programa = Procesamiento["PROG"]
     pos=Procesamiento["i"]
+    
     if Programa[pos]in Procesamiento["Command"]:
         Procesamiento=Verify_Command(Procesamiento)
         Programa=Procesamiento["PROG"]
@@ -109,10 +114,21 @@ def Verify_Block(Procesamiento):
         if  Programa[pos]==";":
             pos=pos+1
             Procesamiento["i"]=pos
-            Verify_Block(Procesamiento)
+            Procesamiento =Verify_Block(Procesamiento)
         elif Programa[pos]=="}":
             pos=pos+1
             Procesamiento["i"]=pos
+            
+        else:
+            Procesamiento["Funciona"]=False
+    elif Programa[pos] in Cycle:
+        pos = pos+1
+        if Programa[pos] in Condition:
+            pos = pos+1
+            if Programa[pos] == "(":
+                pos = pos+1
+            else:
+                Procesamiento["Funciona"]=False
         else:
             Procesamiento["Funciona"]=False
     return Procesamiento
