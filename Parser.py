@@ -6,11 +6,12 @@ ReadFile = file.read()
 Command= ["=","JUMP","WALK","LEAP","TURN","TURNTO","DROP","GET","GRAB","LETGO","NOP"]
 Condition = ["FACING", "CAN", "NOT"]
 Cycle=["WHILE", "REPEAT"]
-
+RES =["=","JUMP","WALK","LEAP","TURN","TURNTO","DROP","GET","GRAB","LETGO","NOP","WHILE", "REPEAT",
+      "FACING", "CAN", "NOT","DEFVAR","DEFPROC","IF"]
 #DICCIONARIO PROCESAMIENTO
 Procesamiento = {"PROG": ReadFile, "i":0, "Funciona":True, "Command":Command, "Condition":Condition, "Cycle": Cycle,
                  "FD":["LEFT", "RIGHT", "AROUND"], "SD":["NORTH", "SOUTH", "EAST", "WEST"], "VAR":{},
-                 }
+                 "RES":RES}
 #FUNCIONES DE CONTROL
 def Adapt_Program(Procesamiento):
     text= Procesamiento["PROG"]
@@ -43,9 +44,6 @@ def Adapt_Program(Procesamiento):
         
         Procesamiento["Funciona"]= False
     return Procesamiento
-
-
-
 #FUNCIONES DE VERIFICACION
 def Verify_VAR(Procesamiento):
     Programa = Procesamiento["PROG"]
@@ -74,10 +72,10 @@ def Verify_Block(Procesamiento):
         Procesamiento=Verify_Command(Procesamiento)
         pos= Procesamiento["i"]
     return Procesamiento
-
 def Verify_Command(Procesamiento):
     Programa = Procesamiento["PROG"]
     pos=Procesamiento["i"]
+    Reservadas = Procesamiento["RES"]
     FD=Procesamiento["FD"]
     SD=Procesamiento["SD"]
     OC=["DROP","GET","GRAB","LETGO"]
@@ -85,7 +83,7 @@ def Verify_Command(Procesamiento):
         pos +=1
         if Programa[pos] =="(":
             pos +=1
-            if Programa[pos].isalnum():
+            if Programa[pos].isalnum() and Programa[pos] not in Reservadas:
                 pos +=1
                 if Programa[pos] ==")":
                     pos+=1
@@ -111,7 +109,7 @@ def Verify_Command(Procesamiento):
         pos +=1
         if Programa[pos] =="(":
             pos +=1
-            if Programa[pos].isalnum():
+            if Programa[pos].isalnum() and Programa[pos] not in Reservadas:
                 pos +=1
                 if Programa[pos] ==")":
                     pos+=1
@@ -167,11 +165,11 @@ def Verify_Command(Procesamiento):
         pos +=1
         if Programa[pos] =="(":
             pos +=1
-            if Programa[pos].isalnum():
+            if Programa[pos].isalnum() and Programa[pos] not in Reservadas:
                 pos +=1
                 if Programa[pos] ==",":
                     pos+=1
-                    if Programa[pos].isalnum():
+                    if Programa[pos].isalnum() and Programa[pos] not in Reservadas:
                         pos +=1
                         if Programa[pos] ==")":
                             pos+=1
