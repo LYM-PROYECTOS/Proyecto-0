@@ -11,7 +11,7 @@ RES =["=","JUMP","WALK","LEAP","TURN","TURNTO","DROP","GET","GRAB","LETGO","NOP"
 #DICCIONARIO PROCESAMIENTO
 Procesamiento = {"PROG": ReadFile, "i":0, "Funciona":True, "Command":Command, "Condition":Condition, "Cycle": Cycle,
                  "FD":["LEFT", "RIGHT", "AROUND"], "SD":["NORTH", "SOUTH", "EAST", "WEST"], "VAR":{},
-                 "RES":RES}
+                 "RES":RES,"PROC":{}}
 #FUNCIONES DE CONTROL
 def Adapt_Program(Procesamiento):
     text= Procesamiento["PROG"]
@@ -64,27 +64,27 @@ def Verify_VAR(Procesamiento):
 def Verify_Proceso(Procesamiento):
     Programa = Procesamiento["PROG"]
     pos=Procesamiento["i"]+1
-    
+    contador = 0 
+    nombre = ""
     if Programa[pos] not in Command:
-        pos +=1
-        
+        nombre = Programa[pos]
+        pos +=1        
         if Programa[pos]=="(":
-            pos += 1
-            
+            pos += 1            
             if Programa[pos].isalnum():
                 pos += 1
+                contador = contador+1
+                Procesamiento["PROC"][nombre]= contador
                 
                 if Programa[pos]==",":
                     pos +=1
                                        
                     if Programa[pos].isalnum():
                         pos += 1
-                        
+                        contador = contador+1
                         if Programa[pos]==")":
                             pos=pos+1
-                            
-                            Procesamiento["i"]=pos
-
+                            Procesamiento["i"]=pos 
                         else:
                             Procesamiento["Funciona"]= False
                     else:
@@ -95,7 +95,8 @@ def Verify_Proceso(Procesamiento):
 
                 pos=pos+1
                 Procesamiento["i"]=pos
-    
+    Procesamiento["PROC"][nombre]= contador
+    print(Procesamiento["PROC"])
     return Procesamiento
 
 def verifycycle(Procesamiento):
