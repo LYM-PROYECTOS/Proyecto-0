@@ -60,17 +60,61 @@ def Verify_VAR(Procesamiento):
         Procesamiento["Funciona"] =False
     print(Procesamiento["VAR"])
     return Procesamiento
+#revisar si puede haver un proceso asi (""""defProc putCB (c)"""") IMPORTANTE por el momento se toma erroneo
 def Verify_Proceso(Procesamiento):
+    Programa = Procesamiento["PROG"]
+    pos=Procesamiento["i"]+1
+    if Programa[pos] not in Command:
+        pos +=1
+       
+        if Programa[pos]=="(":
+            pos += 1
+           
+            if Programa[pos].isalnum():
+                pos += 1
+               
+                if Programa[pos]==",":
+                    pos +=1
+                   
+                    if Programa[pos].isalnum():
+                        pos += 1
+                       
+                        if Programa[pos]==")":
+                            pos=pos+1
+                            
+                            Procesamiento["i"]=pos
+                
+                        else:
+                            Procesamiento["Funciona"]= False
+                    else:
+                        Procesamiento["Funciona"]=False
+                else:
+                    Procesamiento["Funciona"]=False
+            elif Programa[pos]==")":
+
+                pos=pos+1
+                Procesamiento["i"]=pos
+        
     return Procesamiento
+
 def verifycycle(Procesamiento):
     return Procesamiento
 def Verify_Block(Procesamiento):
     Programa = Procesamiento["PROG"]
     pos=Procesamiento["i"]
-    
     if Programa[pos]in Procesamiento["Command"]:
         Procesamiento=Verify_Command(Procesamiento)
-        pos= Procesamiento["i"]
+        Programa=Procesamiento["PROG"]
+        pos=Procesamiento["i"]
+        if  Programa[pos]==";":
+            pos=pos+1
+            Procesamiento["i"]=pos
+            Verify_Block(Procesamiento)
+        elif Programa[pos]=="}":
+            pos=pos+1
+            Procesamiento["i"]=pos
+        else:
+            Procesamiento["Funciona"]=False
     return Procesamiento
 def Verify_Command(Procesamiento):
     Programa = Procesamiento["PROG"]
