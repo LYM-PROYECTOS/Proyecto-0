@@ -85,7 +85,8 @@ def Verify_Proceso(Procesamiento):
                         contador = contador+1
                         if Programa[pos]==")":
                             pos=pos+1
-                            Procesamiento["i"]=pos 
+                            Procesamiento["i"]=pos
+                            Procesamiento["PROG"]=Programa
                         else:
                             Procesamiento["Funciona"]= False
                     else:
@@ -126,6 +127,7 @@ def verifycycle(Procesamiento):
                         if Programa[pos]=="}":
                            pos+=1
                            Procesamiento["i"]=pos
+                           Procesamiento["PROG"]=Programa
                     else:
                         Procesamiento["Funciona"]= False
                 else:
