@@ -163,6 +163,13 @@ def Verifycondicion(Procesamiento):
                             Procesamiento["i"]=pos
                             Procesamiento=Verify_Block(Procesamiento) 
                             pos=Procesamiento["i"] 
+                            print(Programa[pos])
+                            if Programa[pos]=="}":
+                                pos = pos+1
+                                Procesamiento["i"]=pos
+                                Procesamiento["PROG"]=Programa 
+                            else:
+                                Procesamiento["Funciona"] =False
                         else:
                             Procesamiento["Funciona"] =False
                     else:
