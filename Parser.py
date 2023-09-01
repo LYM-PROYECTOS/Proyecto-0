@@ -192,43 +192,41 @@ def Verifycondicion(Procesamiento):
 def Verify_Block(Procesamiento):
     Programa = Procesamiento["PROG"]
     pos=Procesamiento["i"]
-    
-    if Programa[pos]in Procesamiento["Command"]:
-        Procesamiento=Verify_Command(Procesamiento)
-        Programa=Procesamiento["PROG"]
-        pos=Procesamiento["i"]
-        
-        if  Programa[pos]==";":
-            pos=pos+1
+    ejecuta = True
+    coma=False
+    while ejecuta:
+
+        print(Programa[pos], "Eeeeeeeeeeeeeeeeeeeeeeee")
+        if Programa[pos] in Procesamiento["Command"] or  Programa[pos] in Procesamiento["PROC"] :
             Procesamiento["i"]=pos
-            Procesamiento =Verify_Block(Procesamiento)
-        elif Programa[pos]=="}":
+            Procesamiento=Verify_Command(Procesamiento) 
+            pos=Procesamiento["i"]  
+            coma=False        
+        elif Programa[pos]==";" and not coma:
             pos=pos+1
+            coma = True
+        elif Programa[pos] == "}":
+            ejecuta = False
+            pos +=1
             Procesamiento["i"]=pos
-            
+        elif Programa[pos] == "{":
+            pos += 1
+            Procesamiento["i"]=pos
+            Procesamiento = Verify_Block(Procesamiento)
+            pos=Procesamiento["i"]
+            coma=False
         else:
             Procesamiento["Funciona"]=False
-    elif Programa[pos] in Cycle:
-        pos = pos+1
-        if Programa[pos] in Condition:
-            pos = pos+1
-            if Programa[pos] == "(":
-                pos = pos+1
-                Procesamiento =verifycycle(Procesamiento)
-                pos = Procesamiento["i"]
-                Programa=Procesamiento["PROG"]
-            else:
-                Procesamiento["Funciona"]=False
-        else:
-            Procesamiento["Funciona"]=False
-    elif Programa[pos] == "IF":
-        Procesamiento=Verifycondicion(Procesamiento)
+            Procesamiento["i"]=pos
+            ejecuta = False 
+
     
     return Procesamiento
 
 def Verify_Command(Procesamiento):
     Programa = Procesamiento["PROG"]
     pos=Procesamiento["i"]
+    print(Programa[pos],"INDIGNADO")
     Reservadas = Procesamiento["RES"]
     FD=Procesamiento["FD"]
     SD=Procesamiento["SD"]
