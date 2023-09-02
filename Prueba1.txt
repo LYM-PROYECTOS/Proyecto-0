@@ -13,7 +13,10 @@ defProc goNorth ()
 {
 
 while can ( walk (1 , north )) { walk (1 , north ) };
-putCB (1 ,1)
+putCB (1 ,1) ; REPEAT 5 TIMES {
+jump (3 ,3) ;
+putCB (2 ,1)
+}
 
 }
 

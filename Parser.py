@@ -106,7 +106,7 @@ def Verify_Proceso(Procesamiento):
 def verifycycle(Procesamiento):
     Programa = Procesamiento["PROG"]
     pos=Procesamiento["i"]
-    
+    Reservadas = Procesamiento["RES"]
     if Programa[pos]=="WHILE":
         pos += 1
         if Programa[pos] in Condition:
@@ -137,6 +137,21 @@ def verifycycle(Procesamiento):
                 Procesamiento["Funciona"]=False
         else:
             Procesamiento["Funciona"]=False
+    elif Programa[pos]=="REPEAT":
+        pos += 1
+        if Programa[pos].isalnum() and Programa[pos] not in Reservadas:
+            pos +=1
+            if Programa[pos]=="TIMES":
+                pos +=1
+                if Programa[pos] =="{":
+                    Procesamiento["i"] +=1
+                    Procesamiento = Verify_Block(Procesamiento)
+                else:
+                    Procesamiento["Funciona"] =False
+            else:
+               Procesamiento["Funciona"] =False 
+        else:
+            Procesamiento["Funciona"] =False
     return Procesamiento
 
 def Verifycondicion(Procesamiento):
@@ -203,7 +218,7 @@ def Verify_Block(Procesamiento):
             Procesamiento = Verify_Block(Procesamiento)
             pos=Procesamiento["i"]
             coma=False
-        elif Programa[pos]=="WHILE":
+        elif Programa[pos]=="WHILE" or Programa[pos]=="REPEAT" :
             Procesamiento["i"]=pos
             Procesamiento = verifycycle(Procesamiento)
             pos=Procesamiento["i"]
@@ -399,6 +414,6 @@ def Inicio(Procesamiento):
         print("El programa es ERRONEO")
         Programa=Procesamiento["PROG"]
         pos =Procesamiento["i"]
-        print(Programa[pos-2],Programa[pos-1],Programa[pos],Programa[pos+1],Programa[pos+2])
+        print(Programa[pos-2],Programa[pos-1],Programa[pos],Programa[pos+1],Programa[pos+2], Programa[pos+3])
         
 Inicio(Procesamiento)
