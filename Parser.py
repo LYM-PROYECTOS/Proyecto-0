@@ -122,10 +122,16 @@ def verifycycle(Procesamiento):
                     if Programa[pos]=="{":
                         pos = pos+1
                         Procesamiento["i"]=pos
+                        print("Entra", pos, Programa[pos])
                         Procesamiento=Verify_Block(Procesamiento)
+                        pos+=1
+                        print("Entra", pos, Programa[pos])
                         Programa = Procesamiento["PROG"]
                         pos= Procesamiento["i"]
+<<<<<<< HEAD
                         
+=======
+>>>>>>> 354194e9dcec64e279994455229c80a9dd892e87
                     else:
                         Procesamiento["Funciona"]= False
                 else:
@@ -205,15 +211,29 @@ def Verify_Block(Procesamiento):
             Procesamiento=Verify_Command(Procesamiento) 
             pos=Procesamiento["i"]  
             print(pos,  "validando bloque", "aqiuiiii")
-            coma=False        
-        elif Programa[pos]==";" and not coma:
+            coma=False    
+            print(Programa[pos],"ayuda socorro jesus")    
+        elif Programa[pos]==";" :
             pos=pos+1
+            print(Programa[pos],"aaaaaaaaaaaaa")
             coma = True
+            if Programa[pos] == "{":
+                pos += 1
+                Procesamiento["i"]=pos
+                Procesamiento = Verify_Block(Procesamiento)
+                pos=Procesamiento["i"]
+                coma=False
+            if Programa[pos] in Procesamiento["Command"] or  Programa[pos] in Procesamiento["PROC"] :
+                Procesamiento["i"]=pos
+                print(Programa[pos], "entro a comando por bloque")
+                Procesamiento=Verify_Command(Procesamiento) 
+                pos=Procesamiento["i"]  
         elif Programa[pos] == "}":
             ejecuta = False
             pos +=1
             Procesamiento["i"]=pos
-            print("funciona al salir good", ejecuta)
+            print("funciona al salir good", ejecuta, Programa[pos])
+            
         elif Programa[pos] == "{":
             pos += 1
             Procesamiento["i"]=pos
@@ -416,5 +436,6 @@ def Inicio(Procesamiento):
         Programa=Procesamiento["PROG"]
         pos =Procesamiento["i"]
         print(Programa[pos-2],Programa[pos-1],Programa[pos],Programa[pos+1],Programa[pos+2], Programa[pos+3])
+        print(pos)
         
 Inicio(Procesamiento)
