@@ -122,10 +122,8 @@ def verifycycle(Procesamiento):
                     if Programa[pos]=="{":
                         pos = pos+1
                         Procesamiento["i"]=pos
-                        print("Entra", pos, Programa[pos])
                         Procesamiento=Verify_Block(Procesamiento)
                         pos+=1
-                        print("Entra", pos, Programa[pos])
                         Programa = Procesamiento["PROG"]
                         pos= Procesamiento["i"]
                     else:
@@ -138,18 +136,14 @@ def verifycycle(Procesamiento):
             Procesamiento["Funciona"]=False
     elif Programa[pos]=="REPEAT":
         pos += 1
-        print("vamos bien ------")
         if (Programa[pos].isalnum() or Programa[pos].isdigit())and Programa[pos] not in Reservadas:
-            print("vamos bien22222222---")
             pos +=1
             if Programa[pos]=="TIMES":
-                print("vamos bien33333333333---")
                 pos +=1
                 if Programa[pos] =="{":
                     pos +=1
                     Procesamiento["i"] =pos
                     Procesamiento = Verify_Block(Procesamiento)
-                    print(Procesamiento["Funciona"], Procesamiento["i"])
                 else:
                     Procesamiento["Funciona"] =False
             else:
@@ -203,15 +197,11 @@ def Verify_Block(Procesamiento):
     while ejecuta:
         if Programa[pos] in Procesamiento["Command"] or  Programa[pos] in Procesamiento["PROC"] :
             Procesamiento["i"]=pos
-            print(Programa[pos], "entro a comando por bloque")
             Procesamiento=Verify_Command(Procesamiento) 
             pos=Procesamiento["i"]  
-            print(pos,  "validando bloque", "aqiuiiii")
-            coma=False    
-            print(Programa[pos],"ayuda socorro jesus")    
+            coma=False      
         elif Programa[pos]==";" :
             pos=pos+1
-            print(Programa[pos],"aaaaaaaaaaaaa")
             coma = True
             if Programa[pos] == "{":
                 pos += 1
@@ -221,7 +211,6 @@ def Verify_Block(Procesamiento):
                 coma=False
             if Programa[pos] in Procesamiento["Command"] or  Programa[pos] in Procesamiento["PROC"] :
                 Procesamiento["i"]=pos
-                print(Programa[pos], "entro a comando por bloque")
                 Procesamiento=Verify_Command(Procesamiento) 
                 pos=Procesamiento["i"]  
         elif Programa[pos] == "}":
@@ -370,7 +359,6 @@ def Verify_Command(Procesamiento):
         else:
                Procesamiento["Funciona"] =False 
     elif Programa[pos] in Procesamiento["PROC"].keys():
-        print(Programa[pos],"comando en procesos")
         Parametros = Procesamiento["PROC"][Programa[pos]]
         pos += 1
         if Programa[pos]== "(":
@@ -397,14 +385,10 @@ def Verify_Command(Procesamiento):
                     verify = False
                 pos +=1
             Procesamiento["i"]=pos
-            print(Parametros, conteo)
             if Parametros != conteo:
                 Procesamiento["Funciona"] =False
-                print(Parametros, conteo, "error numero")
         else:
             Procesamiento["Funciona"] =False 
-            print(Procesamiento["PROC"].keys(), "llllll")
-            print(Programa[pos], "andreaaa")
     return Procesamiento
 ##CONTROLADOR 
 def Inicio(Procesamiento):
@@ -421,7 +405,6 @@ def Inicio(Procesamiento):
         elif Programa[pos] =="{":
             Procesamiento["i"] +=1
             Procesamiento = Verify_Block(Procesamiento)
-            print("retorno", Programa[pos])
 
         else: 
             Procesamiento["Funciona"]=False
@@ -431,7 +414,6 @@ def Inicio(Procesamiento):
         print("El programa es ERRONEO")
         Programa=Procesamiento["PROG"]
         pos =Procesamiento["i"]
-        print(Programa[pos-2],Programa[pos-1],Programa[pos],Programa[pos+1],Programa[pos+2], Programa[pos+3])
-        print(pos)
+
         
 Inicio(Procesamiento)
