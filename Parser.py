@@ -228,7 +228,7 @@ def Verify_Block(Procesamiento):
             ejecuta = False
             pos +=1
             Procesamiento["i"]=pos
-            print("funciona al salir good", ejecuta, Programa[pos])
+            
             
         elif Programa[pos] == "{":
             pos += 1
