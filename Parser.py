@@ -125,10 +125,7 @@ def verifycycle(Procesamiento):
                         Procesamiento=Verify_Block(Procesamiento)
                         Programa = Procesamiento["PROG"]
                         pos= Procesamiento["i"]
-                        if Programa[pos]=="}":
-                           pos+=1
-                           Procesamiento["i"]=pos
-                           Procesamiento["PROG"]=Programa
+                        
                     else:
                         Procesamiento["Funciona"]= False
                 else:
@@ -139,13 +136,18 @@ def verifycycle(Procesamiento):
             Procesamiento["Funciona"]=False
     elif Programa[pos]=="REPEAT":
         pos += 1
-        if Programa[pos].isalnum() and Programa[pos] not in Reservadas:
+        print("vamos bien ------")
+        if (Programa[pos].isalnum() or Programa[pos].isdigit())and Programa[pos] not in Reservadas:
+            print("vamos bien22222222---")
             pos +=1
             if Programa[pos]=="TIMES":
+                print("vamos bien33333333333---")
                 pos +=1
                 if Programa[pos] =="{":
-                    Procesamiento["i"] +=1
+                    pos +=1
+                    Procesamiento["i"] =pos
                     Procesamiento = Verify_Block(Procesamiento)
+                    print(Procesamiento["Funciona"], Procesamiento["i"])
                 else:
                     Procesamiento["Funciona"] =False
             else:
@@ -223,7 +225,6 @@ def Verify_Block(Procesamiento):
             Procesamiento = verifycycle(Procesamiento)
             pos=Procesamiento["i"]
             coma=False
-            ejecuta=False
         elif Programa[pos]=="IF":
             pos =pos+1
             Procesamiento["i"]=pos
