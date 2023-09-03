@@ -128,10 +128,6 @@ def verifycycle(Procesamiento):
                         print("Entra", pos, Programa[pos])
                         Programa = Procesamiento["PROG"]
                         pos= Procesamiento["i"]
-<<<<<<< HEAD
-                        
-=======
->>>>>>> 354194e9dcec64e279994455229c80a9dd892e87
                     else:
                         Procesamiento["Funciona"]= False
                 else:
