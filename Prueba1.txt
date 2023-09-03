@@ -30,8 +30,7 @@ defProc goWest ()
 {
 if can ( walk (1 , west ) ) { walk (1 , west )} else { nop () };
 goNorth () ;
-goWest () ;
-
+goWest () 
 }
 
 {

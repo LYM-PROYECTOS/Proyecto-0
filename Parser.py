@@ -200,7 +200,7 @@ def Verify_Block(Procesamiento):
             Procesamiento=Verify_Command(Procesamiento) 
             pos=Procesamiento["i"]  
             coma=False      
-        elif Programa[pos]==";" :
+        elif Programa[pos]==";":
             pos=pos+1
             coma = True
             if Programa[pos] == "{":
@@ -213,6 +213,11 @@ def Verify_Block(Procesamiento):
                 Procesamiento["i"]=pos
                 Procesamiento=Verify_Command(Procesamiento) 
                 pos=Procesamiento["i"]  
+            if Programa[pos-1]==";" and Programa[pos] =="}":
+                Procesamiento["Funciona"]=False
+                Procesamiento["i"]=pos
+                ejecuta = False 
+                
         elif Programa[pos] == "}":
             ejecuta = False
             pos +=1
