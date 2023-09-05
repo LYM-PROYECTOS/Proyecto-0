@@ -1,6 +1,3 @@
-#"D:\OneDrive - Universidad de los andes\U.ANDES\2023-2\LyM\4-PTO\Proyecto-0\Prueba.txt"
-#"C:\Users\andre\OneDrive\Desktop\universidad\tercer semestre\LYM\Proyecto-0\Prueba.txt"
-#VARIABLES CREADAS
 file = open(input("Ingrese ruta de acceso del archivo con el programa (formato .txt): "))
 ReadFile = file.read()
 Command= ["=","JUMP","WALK","LEAP","TURN","TURNTO","DROP","GET","GRAB","LETGO","NOP"]
@@ -8,11 +5,9 @@ Condition = ["FACING", "CAN", "NOT"]
 Cycle=["WHILE", "REPEAT"]
 RES =["=","JUMP","WALK","LEAP","TURN","TURNTO","DROP","GET","GRAB","LETGO","NOP","WHILE", "REPEAT",
       "FACING", "CAN", "NOT","DEFVAR","DEFPROC","IF"]
-#DICCIONARIO PROCESAMIENTO
 Procesamiento = {"PROG": ReadFile, "i":0, "Funciona":True, "Command":Command, "Condition":Condition, "Cycle": Cycle,
                  "FD":["LEFT", "RIGHT", "AROUND"], "SD":["NORTH", "SOUTH", "EAST", "WEST"], "VAR":{},
                  "RES":RES,"PROC":{}}
-#FUNCIONES DE CONTROL
 def Adapt_Program(Procesamiento):
     text= Procesamiento["PROG"]
     dictV={"{":0,"}":0,"(":0, ")":0,";":0, ",":0,"=":0}
@@ -36,15 +31,12 @@ def Adapt_Program(Procesamiento):
                 palabra = ""
         else:
             palabra += caracter
-    
     if palabra:
         PROGRAMA1.append(palabra)
     Procesamiento["PROG"]=PROGRAMA1
     if (dictV["{"]!=dictV["}"]) or (dictV["("]!=dictV[")"]):
-        
         Procesamiento["Funciona"]= False
     return Procesamiento
-#FUNCIONES DE VERIFICACION
 def Verify_VAR(Procesamiento):
     Programa = Procesamiento["PROG"]
     pos=Procesamiento["i"]
@@ -58,9 +50,7 @@ def Verify_VAR(Procesamiento):
             Procesamiento["Funciona"] =False
     else:
         Procesamiento["Funciona"] =False
-    print(Procesamiento["VAR"])
     return Procesamiento
-#revisar si puede haber un proceso asi (""""defProc putCB (c)"""") IMPORTANTE por el momento se toma erroneo
 def Verify_Proceso(Procesamiento):
     Programa = Procesamiento["PROG"]
     pos=Procesamiento["i"]+1
@@ -76,10 +66,8 @@ def Verify_Proceso(Procesamiento):
                 pos += 1
                 contador = contador+1
                 Procesamiento["PROC"][nombre]= contador
-
                 if Programa[pos]==",":
-                    pos +=1
-                                       
+                    pos +=1            
                     if Programa[pos].isalnum():
                         pos += 1
                         contador = contador+1
@@ -96,13 +84,10 @@ def Verify_Proceso(Procesamiento):
                 else:
                     Procesamiento["Funciona"]=False
             elif Programa[pos]==")":
-
                 pos=pos+1
                 Procesamiento["i"]=pos
     Procesamiento["PROC"][nombre]= contador
-    print(Procesamiento["PROC"])
     return Procesamiento
-
 def verifycycle(Procesamiento):
     Programa = Procesamiento["PROG"]
     pos=Procesamiento["i"]
@@ -151,7 +136,6 @@ def verifycycle(Procesamiento):
         else:
             Procesamiento["Funciona"] =False
     return Procesamiento
-
 def Verifycondicion(Procesamiento):
     Programa = Procesamiento["PROG"]
     pos=Procesamiento["i"]
@@ -176,7 +160,6 @@ def Verifycondicion(Procesamiento):
                             Procesamiento["i"]=pos
                             Procesamiento=Verify_Block(Procesamiento) 
                             pos=Procesamiento["i"] 
-                            
                         else:
                             Procesamiento["Funciona"] =False
                     else:
@@ -188,7 +171,6 @@ def Verifycondicion(Procesamiento):
         else:
             Procesamiento["Funciona"] =False
     return Procesamiento
-
 def Verify_Block(Procesamiento):
     Programa = Procesamiento["PROG"]
     pos=Procesamiento["i"]
@@ -216,14 +198,11 @@ def Verify_Block(Procesamiento):
             if Programa[pos-1]==";" and Programa[pos] =="}":
                 Procesamiento["Funciona"]=False
                 Procesamiento["i"]=pos
-                ejecuta = False 
-                
+                ejecuta = False     
         elif Programa[pos] == "}":
             ejecuta = False
             pos +=1
             Procesamiento["i"]=pos
-            
-            
         elif Programa[pos] == "{":
             pos += 1
             Procesamiento["i"]=pos
@@ -245,11 +224,7 @@ def Verify_Block(Procesamiento):
             Procesamiento["Funciona"]=False
             Procesamiento["i"]=pos
             ejecuta = False 
-
-# volver a meter lo de while y lo de condiciones
-    
     return Procesamiento
-
 def Verify_Command(Procesamiento):
     Programa = Procesamiento["PROG"]
     pos=Procesamiento["i"]
@@ -395,11 +370,9 @@ def Verify_Command(Procesamiento):
         else:
             Procesamiento["Funciona"] =False 
     return Procesamiento
-##CONTROLADOR 
 def Inicio(Procesamiento):
     Procesamiento = Adapt_Program(Procesamiento)
     Programa = Procesamiento["PROG"]
-    print(Programa)
     while Procesamiento["Funciona"] and Procesamiento["i"]<len(Programa):
         pos=Procesamiento["i"]
         if Programa[pos] =="DEFPROC":
@@ -410,15 +383,10 @@ def Inicio(Procesamiento):
         elif Programa[pos] =="{":
             Procesamiento["i"] +=1
             Procesamiento = Verify_Block(Procesamiento)
-
         else: 
             Procesamiento["Funciona"]=False
     if Procesamiento["Funciona"]:
         print("El programa es CORRECTO")
     else:
-        print("El programa es ERRONEO")
-        Programa=Procesamiento["PROG"]
-        pos =Procesamiento["i"]
-
-        
+        print("El programa es ERRONEO")      
 Inicio(Procesamiento)

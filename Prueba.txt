@@ -15,7 +15,12 @@ while can(walk(1 , north ) ) { walk(1 , north ) }
 }
 defProc goWest ()
 {
-if can(walk(1 , west ) ) { walk(1 , west ) } else { nop () }
+if can(walk(1 , west ) ) { walk(1 , west ) } else { nop (); walk(1 , west );jump (3 ,3) ;
+putCB (2 ,1);
+REPEAT 5 TIMES {
+jump (3 ,3) ;
+putCB (2 ,1)
+} }
 }
 {
 jump (3 ,3) ;
