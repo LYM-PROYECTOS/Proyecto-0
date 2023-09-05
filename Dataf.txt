@@ -1,0 +1,51 @@
+defVar x 0
+defVar y 0
+defVar z 0
+defVar rut 0
+
+defProc Putcb()
+{
+	drop(c);
+	letGo(b);
+	walk(b);
+	if can(walk(2,west)){walk(2,west)} else{leap(3)};
+	if can(walk(3,north)){walk(3,north)} else{turnto(north)}
+	
+}
+
+defProc putballon()
+{
+	while can ( walk (1 , north )) { walk (1 , north ) };
+  	putCB (1 ,1) ;
+	REPEAT 5 TIMES {
+	turn (4 ,8) ;
+	letGo (1)
+}
+
+defProc Putac()
+{
+	if can(walk(1,north)){ walk (1 , north ) };
+	putballon()
+	if can(walk(2,west)){repeat 6 times {walk(2,west)}}
+	
+}
+
+{
+	while can(walk(1,front)){repeat 3 times {walk(1,front); get(5) ;grab(5)}}
+	
+}
+
+defProc goNorth{
+	while can ( walk (1 , north )) { walk (1 , north ) };
+	drop(5)
+}
+defproc goWest{
+	while can ( walk (1 , west )) { walk (1 , west ) };
+}
+
+{
+jump (4 ,5) ;
+putCB (6 ,7) ;
+goNorth () ;
+goWest ()
+}
